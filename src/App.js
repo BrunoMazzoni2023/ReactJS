@@ -1,7 +1,4 @@
-import { useState } from 'react'
-
-import Nome from "./components/Nome";
-
+import { useState, useEffect } from 'react'
 
 function App() {
   const [input, setInput] = useState('');
@@ -10,16 +7,28 @@ function App() {
     'Estudar React JS'
   ]);
 
+  useEffect(() =>{
+    const tarefasStorage = localStorage.getItem('@tarefa');
+
+    if(tarefasStorage){
+      setTarefas(JSON.parse(tarefasStorage))
+    }
+  }, []);
+
+  useEffect(() =>{
+    localStorage.setItem('@tarefa', JSON.stringify(tarefas))
+  }, [tarefas]);
+
   function handleRegister(e){
     e.preventDefault();
 
-    setTarefas([...tarefas, input])
+    setTarefas([...tarefas, input]);
     setInput('');
    }
 
   return (
     <div>
-      <h1>Cadastrando usuario</h1>
+      <h1>Cadastrando Tarefa</h1>
 
       <form onSubmit={handleRegister}>
         <label>Nome da Tarefa </label><br/>
